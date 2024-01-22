@@ -1,7 +1,7 @@
 #![cfg(feature = "test-sbf")]
 
 use borsh::BorshDeserialize;
-use solana_program_test::{tokio, ProgramTest};
+use domichain_program_test::{tokio, ProgramTest};
 use solana_sdk::{
     signature::{Keypair, Signer},
     transaction::Transaction,

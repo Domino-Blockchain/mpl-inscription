@@ -1,12 +1,12 @@
 use borsh::{BorshDeserialize, BorshSerialize};
-use mpl_token_metadata::accounts::Metadata;
-use mpl_utils::{
-    assert_derivation, assert_owned_by, assert_signer, create_or_allocate_account_raw,
-};
-use solana_program::{
+use domichain_program::{
     account_info::AccountInfo, entrypoint::ProgramResult, program_memory::sol_memcpy,
     system_program,
 };
+use mpl_utils::{
+    assert_derivation, assert_owned_by, assert_signer, create_or_allocate_account_raw,
+};
+// use token_metadata::accounts::Metadata;
 
 use crate::{
     error::MplInscriptionError,
@@ -34,7 +34,7 @@ pub(crate) fn process_initialize_from_mint<'a>(accounts: &'a [AccountInfo<'a>]) 
     // Do the standard Token Metadata checks.
     assert_owned_by(
         ctx.accounts.token_metadata_account,
-        &mpl_token_metadata::ID,
+        &token_metadata::ID,
         MplInscriptionError::IncorrectOwner,
     )?;
 
@@ -45,11 +45,11 @@ pub(crate) fn process_initialize_from_mint<'a>(accounts: &'a [AccountInfo<'a>]) 
     )?;
 
     let token_metadata_data = ctx.accounts.token_metadata_account.try_borrow_data()?;
-    let token_metadata: Metadata = Metadata::safe_deserialize(&token_metadata_data)?;
+    // let token_metadata: Metadata = Metadata::safe_deserialize(&token_metadata_data)?;
 
-    if token_metadata.mint != *ctx.accounts.mint_account.key {
-        return Err(MplInscriptionError::MintMismatch.into());
-    }
+    // if token_metadata.mint != *ctx.accounts.mint_account.key {
+    //     return Err(MplInscriptionError::MintMismatch.into());
+    // }
 
     // Verify that the derived address is correct for the metadata account.
     let inscription_bump = assert_derivation(
@@ -85,9 +85,9 @@ pub(crate) fn process_initialize_from_mint<'a>(accounts: &'a [AccountInfo<'a>]) 
     };
     assert_signer(ctx.accounts.payer)?;
 
-    if token_metadata.update_authority != *authority.key {
-        return Err(MplInscriptionError::InvalidAuthority.into());
-    }
+    // if token_metadata.update_authority != *authority.key {
+    //     return Err(MplInscriptionError::InvalidAuthority.into());
+    // }
 
     if ctx.accounts.system_program.key != &system_program::ID {
         return Err(MplInscriptionError::InvalidSystemProgram.into());
@@ -114,7 +114,7 @@ pub(crate) fn process_initialize_from_mint<'a>(accounts: &'a [AccountInfo<'a>]) 
         inscription_account: *ctx.accounts.mint_inscription_account.key,
         bump,
         inscription_bump: Some(inscription_bump),
-        update_authorities: vec![token_metadata.update_authority],
+        update_authorities: vec![*authority.key],
         ..InscriptionMetadata::default()
     };
 

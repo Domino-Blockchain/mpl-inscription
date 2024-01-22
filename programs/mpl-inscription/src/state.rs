@@ -1,6 +1,6 @@
 use borsh::{BorshDeserialize, BorshSerialize};
+use domichain_program::pubkey::Pubkey;
 use shank::ShankAccount;
-use solana_program::pubkey::Pubkey;
 
 pub const PREFIX: &str = "Inscription";
 pub const ASSOCIATION: &str = "Association";

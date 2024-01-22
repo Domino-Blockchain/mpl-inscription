@@ -1,6 +1,8 @@
 use crate::instruction::MplInscriptionInstruction;
 use borsh::BorshDeserialize;
-use solana_program::{account_info::AccountInfo, entrypoint::ProgramResult, msg, pubkey::Pubkey};
+use domichain_program::{
+    account_info::AccountInfo, entrypoint::ProgramResult, msg, pubkey::Pubkey,
+};
 
 mod add_authority;
 mod allocate;

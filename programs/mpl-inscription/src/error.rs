@@ -1,9 +1,9 @@
-use num_derive::FromPrimitive;
-use solana_program::{
+use domichain_program::{
     decode_error::DecodeError,
     msg,
     program_error::{PrintProgramError, ProgramError},
 };
+use num_derive::FromPrimitive;
 use thiserror::Error;
 
 #[derive(Error, Clone, Debug, Eq, PartialEq, FromPrimitive)]

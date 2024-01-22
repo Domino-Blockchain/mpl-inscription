@@ -1,9 +1,9 @@
 use borsh::{BorshDeserialize, BorshSerialize};
-use mpl_utils::{assert_signer, resize_or_reallocate_account_raw};
-use solana_program::{
+use domichain_program::{
     account_info::AccountInfo, entrypoint::ProgramResult, program_memory::sol_memcpy,
     system_program,
 };
+use mpl_utils::{assert_signer, resize_or_reallocate_account_raw};
 
 use crate::{
     error::MplInscriptionError, instruction::accounts::RemoveAuthorityAccounts,

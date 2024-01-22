@@ -1,10 +1,11 @@
 use borsh::BorshDeserialize;
-use mpl_utils::{assert_derivation, assert_signer, resize_or_reallocate_account_raw};
-use solana_program::{
+use domichain_program::{
     account_info::AccountInfo,
+    dbg_syscall,
     entrypoint::{ProgramResult, MAX_PERMITTED_DATA_INCREASE},
     system_program,
 };
+use mpl_utils::{assert_derivation, assert_signer, resize_or_reallocate_account_raw};
 
 use crate::{
     error::MplInscriptionError,
@@ -27,9 +28,11 @@ pub(crate) fn process_allocate<'a>(
     if ctx.accounts.inscription_metadata_account.owner != &crate::ID {
         return Err(MplInscriptionError::NotInitialized.into());
     }
+    dbg_syscall!("before InscriptionMetadata::try_from_slice");
     let inscription_metadata = InscriptionMetadata::try_from_slice(
         &ctx.accounts.inscription_metadata_account.data.borrow(),
     )?;
+    dbg_syscall!("after InscriptionMetadata::try_from_slice");
 
     // Verify that the derived address is correct for the metadata account.
     match args.associated_tag {
@@ -44,6 +47,7 @@ pub(crate) fn process_allocate<'a>(
                 return Err(MplInscriptionError::AssociationTagTooLong.into());
             }
 
+            dbg_syscall!("before assert_derivation 1");
             let bump = assert_derivation(
                 &crate::ID,
                 ctx.accounts.inscription_account,
@@ -55,6 +59,7 @@ pub(crate) fn process_allocate<'a>(
                 ],
                 MplInscriptionError::DerivedKeyInvalid,
             )?;
+            dbg_syscall!("after assert_derivation 1");
 
             // Find the tag in the associated inscriptions and check the bump.
             if !inscription_metadata
@@ -68,6 +73,7 @@ pub(crate) fn process_allocate<'a>(
             }
         }
         None => {
+            dbg_syscall!("before assert_derivation 2");
             let bump = assert_derivation(
                 &crate::ID,
                 ctx.accounts.inscription_metadata_account,
@@ -78,6 +84,7 @@ pub(crate) fn process_allocate<'a>(
                 ],
                 MplInscriptionError::DerivedKeyInvalid,
             )?;
+            dbg_syscall!("after assert_derivation 2");
             if bump != inscription_metadata.bump {
                 return Err(MplInscriptionError::DerivedKeyInvalid.into());
             }
@@ -106,6 +113,8 @@ pub(crate) fn process_allocate<'a>(
         return Err(MplInscriptionError::InvalidSystemProgram.into());
     }
 
+    dbg_syscall!("before max_realloc_size");
+
     let max_realloc_size = ctx
         .accounts
         .inscription_account
@@ -113,7 +122,11 @@ pub(crate) fn process_allocate<'a>(
         .checked_add(MAX_PERMITTED_DATA_INCREASE)
         .ok_or(MplInscriptionError::NumericalOverflow)?;
 
+    dbg_syscall!("after max_realloc_size");
+
     let new_size = std::cmp::min(args.target_size, max_realloc_size);
+
+    dbg_syscall!("before resize_or_reallocate_account_raw");
 
     // Resize the account to fit the new authority.
     resize_or_reallocate_account_raw(
@@ -122,6 +135,8 @@ pub(crate) fn process_allocate<'a>(
         ctx.accounts.system_program,
         new_size,
     )?;
+
+    dbg_syscall!("after resize_or_reallocate_account_raw");
 
     Ok(())
 }

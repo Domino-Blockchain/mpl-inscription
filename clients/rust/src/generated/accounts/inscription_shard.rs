@@ -24,8 +24,8 @@ impl InscriptionShard {
     pub fn create_pda(
         shard_number: u8,
         bump: u8,
-    ) -> Result<solana_program::pubkey::Pubkey, solana_program::pubkey::PubkeyError> {
-        solana_program::pubkey::Pubkey::create_program_address(
+    ) -> Result<domichain_program::pubkey::Pubkey, domichain_program::pubkey::PubkeyError> {
+        domichain_program::pubkey::Pubkey::create_program_address(
             &[
                 "Inscription".as_bytes(),
                 "Shard".as_bytes(),
@@ -37,8 +37,8 @@ impl InscriptionShard {
         )
     }
 
-    pub fn find_pda(shard_number: u8) -> (solana_program::pubkey::Pubkey, u8) {
-        solana_program::pubkey::Pubkey::find_program_address(
+    pub fn find_pda(shard_number: u8) -> (domichain_program::pubkey::Pubkey, u8) {
+        domichain_program::pubkey::Pubkey::find_program_address(
             &[
                 "Inscription".as_bytes(),
                 "Shard".as_bytes(),
@@ -56,11 +56,11 @@ impl InscriptionShard {
     }
 }
 
-impl<'a> TryFrom<&solana_program::account_info::AccountInfo<'a>> for InscriptionShard {
+impl<'a> TryFrom<&domichain_program::account_info::AccountInfo<'a>> for InscriptionShard {
     type Error = std::io::Error;
 
     fn try_from(
-        account_info: &solana_program::account_info::AccountInfo<'a>,
+        account_info: &domichain_program::account_info::AccountInfo<'a>,
     ) -> Result<Self, Self::Error> {
         let mut data: &[u8] = &(*account_info.data).borrow();
         Self::deserialize(&mut data)

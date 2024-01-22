@@ -7,8 +7,8 @@
 
 use borsh::BorshDeserialize;
 use borsh::BorshSerialize;
+use domichain_program::pubkey::Pubkey;
 use kaigan::types::RemainderVec;
-use solana_program::pubkey::Pubkey;
 
 #[derive(BorshSerialize, BorshDeserialize, Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -21,8 +21,8 @@ impl AssociatedInscriptionAccount {
         association_tag: &str,
         inscription_metadata_account: Pubkey,
         bump: u8,
-    ) -> Result<solana_program::pubkey::Pubkey, solana_program::pubkey::PubkeyError> {
-        solana_program::pubkey::Pubkey::create_program_address(
+    ) -> Result<domichain_program::pubkey::Pubkey, domichain_program::pubkey::PubkeyError> {
+        domichain_program::pubkey::Pubkey::create_program_address(
             &[
                 "Inscription".as_bytes(),
                 "Association".as_bytes(),
@@ -37,8 +37,8 @@ impl AssociatedInscriptionAccount {
     pub fn find_pda(
         association_tag: &str,
         inscription_metadata_account: &Pubkey,
-    ) -> (solana_program::pubkey::Pubkey, u8) {
-        solana_program::pubkey::Pubkey::find_program_address(
+    ) -> (domichain_program::pubkey::Pubkey, u8) {
+        domichain_program::pubkey::Pubkey::find_program_address(
             &[
                 "Inscription".as_bytes(),
                 "Association".as_bytes(),
@@ -56,11 +56,13 @@ impl AssociatedInscriptionAccount {
     }
 }
 
-impl<'a> TryFrom<&solana_program::account_info::AccountInfo<'a>> for AssociatedInscriptionAccount {
+impl<'a> TryFrom<&domichain_program::account_info::AccountInfo<'a>>
+    for AssociatedInscriptionAccount
+{
     type Error = std::io::Error;
 
     fn try_from(
-        account_info: &solana_program::account_info::AccountInfo<'a>,
+        account_info: &domichain_program::account_info::AccountInfo<'a>,
     ) -> Result<Self, Self::Error> {
         let mut data: &[u8] = &(*account_info.data).borrow();
         Self::deserialize(&mut data)

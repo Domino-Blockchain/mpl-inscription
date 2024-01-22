@@ -63,8 +63,8 @@ pub enum MplInscriptionError {
     AuthorityAlreadyExists,
 }
 
-impl solana_program::program_error::PrintProgramError for MplInscriptionError {
+impl domichain_program::program_error::PrintProgramError for MplInscriptionError {
     fn print<E>(&self) {
-        solana_program::msg!(&self.to_string());
+        domichain_program::msg!(&self.to_string());
     }
 }

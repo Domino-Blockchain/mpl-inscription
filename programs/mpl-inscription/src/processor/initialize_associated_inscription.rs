@@ -1,11 +1,11 @@
 use borsh::{BorshDeserialize, BorshSerialize};
+use domichain_program::{
+    account_info::AccountInfo, entrypoint::ProgramResult, program_memory::sol_memcpy,
+    system_program,
+};
 use mpl_utils::{
     assert_derivation, assert_signer, create_or_allocate_account_raw,
     resize_or_reallocate_account_raw,
-};
-use solana_program::{
-    account_info::AccountInfo, entrypoint::ProgramResult, program_memory::sol_memcpy,
-    system_program,
 };
 
 use crate::{

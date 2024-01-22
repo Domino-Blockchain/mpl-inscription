@@ -11,67 +11,67 @@ use borsh::BorshSerialize;
 /// Accounts.
 pub struct InitializeFromMint {
     /// The account to store the metadata in.
-    pub mint_inscription_account: solana_program::pubkey::Pubkey,
+    pub mint_inscription_account: domichain_program::pubkey::Pubkey,
     /// The account to store the inscription account's metadata in.
-    pub inscription_metadata_account: solana_program::pubkey::Pubkey,
+    pub inscription_metadata_account: domichain_program::pubkey::Pubkey,
     /// The mint that will be used to derive the PDA.
-    pub mint_account: solana_program::pubkey::Pubkey,
+    pub mint_account: domichain_program::pubkey::Pubkey,
     /// The metadata for the mint.
-    pub token_metadata_account: solana_program::pubkey::Pubkey,
+    pub token_metadata_account: domichain_program::pubkey::Pubkey,
     /// The shard account for the inscription counter.
-    pub inscription_shard_account: solana_program::pubkey::Pubkey,
+    pub inscription_shard_account: domichain_program::pubkey::Pubkey,
     /// The account that will pay for the transaction and rent.
-    pub payer: solana_program::pubkey::Pubkey,
+    pub payer: domichain_program::pubkey::Pubkey,
     /// The authority of the inscription account.
-    pub authority: Option<solana_program::pubkey::Pubkey>,
+    pub authority: Option<domichain_program::pubkey::Pubkey>,
     /// System program
-    pub system_program: solana_program::pubkey::Pubkey,
+    pub system_program: domichain_program::pubkey::Pubkey,
 }
 
 impl InitializeFromMint {
-    pub fn instruction(&self) -> solana_program::instruction::Instruction {
+    pub fn instruction(&self) -> domichain_program::instruction::Instruction {
         self.instruction_with_remaining_accounts(&[])
     }
     #[allow(clippy::vec_init_then_push)]
     pub fn instruction_with_remaining_accounts(
         &self,
-        remaining_accounts: &[solana_program::instruction::AccountMeta],
-    ) -> solana_program::instruction::Instruction {
+        remaining_accounts: &[domichain_program::instruction::AccountMeta],
+    ) -> domichain_program::instruction::Instruction {
         let mut accounts = Vec::with_capacity(8 + remaining_accounts.len());
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(domichain_program::instruction::AccountMeta::new(
             self.mint_inscription_account,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(domichain_program::instruction::AccountMeta::new(
             self.inscription_metadata_account,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(domichain_program::instruction::AccountMeta::new_readonly(
             self.mint_account,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(domichain_program::instruction::AccountMeta::new_readonly(
             self.token_metadata_account,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(domichain_program::instruction::AccountMeta::new(
             self.inscription_shard_account,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(domichain_program::instruction::AccountMeta::new(
             self.payer, true,
         ));
         if let Some(authority) = self.authority {
-            accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+            accounts.push(domichain_program::instruction::AccountMeta::new_readonly(
                 authority, true,
             ));
         } else {
-            accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+            accounts.push(domichain_program::instruction::AccountMeta::new_readonly(
                 crate::MPL_INSCRIPTION_ID,
                 false,
             ));
         }
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(domichain_program::instruction::AccountMeta::new_readonly(
             self.system_program,
             false,
         ));
@@ -80,7 +80,7 @@ impl InitializeFromMint {
             .try_to_vec()
             .unwrap();
 
-        solana_program::instruction::Instruction {
+        domichain_program::instruction::Instruction {
             program_id: crate::MPL_INSCRIPTION_ID,
             accounts,
             data,
@@ -102,15 +102,15 @@ impl InitializeFromMintInstructionData {
 /// Instruction builder.
 #[derive(Default)]
 pub struct InitializeFromMintBuilder {
-    mint_inscription_account: Option<solana_program::pubkey::Pubkey>,
-    inscription_metadata_account: Option<solana_program::pubkey::Pubkey>,
-    mint_account: Option<solana_program::pubkey::Pubkey>,
-    token_metadata_account: Option<solana_program::pubkey::Pubkey>,
-    inscription_shard_account: Option<solana_program::pubkey::Pubkey>,
-    payer: Option<solana_program::pubkey::Pubkey>,
-    authority: Option<solana_program::pubkey::Pubkey>,
-    system_program: Option<solana_program::pubkey::Pubkey>,
-    __remaining_accounts: Vec<solana_program::instruction::AccountMeta>,
+    mint_inscription_account: Option<domichain_program::pubkey::Pubkey>,
+    inscription_metadata_account: Option<domichain_program::pubkey::Pubkey>,
+    mint_account: Option<domichain_program::pubkey::Pubkey>,
+    token_metadata_account: Option<domichain_program::pubkey::Pubkey>,
+    inscription_shard_account: Option<domichain_program::pubkey::Pubkey>,
+    payer: Option<domichain_program::pubkey::Pubkey>,
+    authority: Option<domichain_program::pubkey::Pubkey>,
+    system_program: Option<domichain_program::pubkey::Pubkey>,
+    __remaining_accounts: Vec<domichain_program::instruction::AccountMeta>,
 }
 
 impl InitializeFromMintBuilder {
@@ -121,7 +121,7 @@ impl InitializeFromMintBuilder {
     #[inline(always)]
     pub fn mint_inscription_account(
         &mut self,
-        mint_inscription_account: solana_program::pubkey::Pubkey,
+        mint_inscription_account: domichain_program::pubkey::Pubkey,
     ) -> &mut Self {
         self.mint_inscription_account = Some(mint_inscription_account);
         self
@@ -130,14 +130,14 @@ impl InitializeFromMintBuilder {
     #[inline(always)]
     pub fn inscription_metadata_account(
         &mut self,
-        inscription_metadata_account: solana_program::pubkey::Pubkey,
+        inscription_metadata_account: domichain_program::pubkey::Pubkey,
     ) -> &mut Self {
         self.inscription_metadata_account = Some(inscription_metadata_account);
         self
     }
     /// The mint that will be used to derive the PDA.
     #[inline(always)]
-    pub fn mint_account(&mut self, mint_account: solana_program::pubkey::Pubkey) -> &mut Self {
+    pub fn mint_account(&mut self, mint_account: domichain_program::pubkey::Pubkey) -> &mut Self {
         self.mint_account = Some(mint_account);
         self
     }
@@ -145,7 +145,7 @@ impl InitializeFromMintBuilder {
     #[inline(always)]
     pub fn token_metadata_account(
         &mut self,
-        token_metadata_account: solana_program::pubkey::Pubkey,
+        token_metadata_account: domichain_program::pubkey::Pubkey,
     ) -> &mut Self {
         self.token_metadata_account = Some(token_metadata_account);
         self
@@ -154,28 +154,31 @@ impl InitializeFromMintBuilder {
     #[inline(always)]
     pub fn inscription_shard_account(
         &mut self,
-        inscription_shard_account: solana_program::pubkey::Pubkey,
+        inscription_shard_account: domichain_program::pubkey::Pubkey,
     ) -> &mut Self {
         self.inscription_shard_account = Some(inscription_shard_account);
         self
     }
     /// The account that will pay for the transaction and rent.
     #[inline(always)]
-    pub fn payer(&mut self, payer: solana_program::pubkey::Pubkey) -> &mut Self {
+    pub fn payer(&mut self, payer: domichain_program::pubkey::Pubkey) -> &mut Self {
         self.payer = Some(payer);
         self
     }
     /// `[optional account]`
     /// The authority of the inscription account.
     #[inline(always)]
-    pub fn authority(&mut self, authority: Option<solana_program::pubkey::Pubkey>) -> &mut Self {
+    pub fn authority(&mut self, authority: Option<domichain_program::pubkey::Pubkey>) -> &mut Self {
         self.authority = authority;
         self
     }
     /// `[optional account, default to '11111111111111111111111111111111']`
     /// System program
     #[inline(always)]
-    pub fn system_program(&mut self, system_program: solana_program::pubkey::Pubkey) -> &mut Self {
+    pub fn system_program(
+        &mut self,
+        system_program: domichain_program::pubkey::Pubkey,
+    ) -> &mut Self {
         self.system_program = Some(system_program);
         self
     }
@@ -183,7 +186,7 @@ impl InitializeFromMintBuilder {
     #[inline(always)]
     pub fn add_remaining_account(
         &mut self,
-        account: solana_program::instruction::AccountMeta,
+        account: domichain_program::instruction::AccountMeta,
     ) -> &mut Self {
         self.__remaining_accounts.push(account);
         self
@@ -192,13 +195,13 @@ impl InitializeFromMintBuilder {
     #[inline(always)]
     pub fn add_remaining_accounts(
         &mut self,
-        accounts: &[solana_program::instruction::AccountMeta],
+        accounts: &[domichain_program::instruction::AccountMeta],
     ) -> &mut Self {
         self.__remaining_accounts.extend_from_slice(accounts);
         self
     }
     #[allow(clippy::clone_on_copy)]
-    pub fn instruction(&self) -> solana_program::instruction::Instruction {
+    pub fn instruction(&self) -> domichain_program::instruction::Instruction {
         let accounts = InitializeFromMint {
             mint_inscription_account: self
                 .mint_inscription_account
@@ -215,9 +218,9 @@ impl InitializeFromMintBuilder {
                 .expect("inscription_shard_account is not set"),
             payer: self.payer.expect("payer is not set"),
             authority: self.authority,
-            system_program: self
-                .system_program
-                .unwrap_or(solana_program::pubkey!("11111111111111111111111111111111")),
+            system_program: self.system_program.unwrap_or(domichain_program::pubkey!(
+                "11111111111111111111111111111111"
+            )),
         };
 
         accounts.instruction_with_remaining_accounts(&self.__remaining_accounts)
@@ -227,48 +230,48 @@ impl InitializeFromMintBuilder {
 /// `initialize_from_mint` CPI accounts.
 pub struct InitializeFromMintCpiAccounts<'a, 'b> {
     /// The account to store the metadata in.
-    pub mint_inscription_account: &'b solana_program::account_info::AccountInfo<'a>,
+    pub mint_inscription_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The account to store the inscription account's metadata in.
-    pub inscription_metadata_account: &'b solana_program::account_info::AccountInfo<'a>,
+    pub inscription_metadata_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The mint that will be used to derive the PDA.
-    pub mint_account: &'b solana_program::account_info::AccountInfo<'a>,
+    pub mint_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The metadata for the mint.
-    pub token_metadata_account: &'b solana_program::account_info::AccountInfo<'a>,
+    pub token_metadata_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The shard account for the inscription counter.
-    pub inscription_shard_account: &'b solana_program::account_info::AccountInfo<'a>,
+    pub inscription_shard_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The account that will pay for the transaction and rent.
-    pub payer: &'b solana_program::account_info::AccountInfo<'a>,
+    pub payer: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The authority of the inscription account.
-    pub authority: Option<&'b solana_program::account_info::AccountInfo<'a>>,
+    pub authority: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
     /// System program
-    pub system_program: &'b solana_program::account_info::AccountInfo<'a>,
+    pub system_program: &'b domichain_program::account_info::AccountInfo<'a>,
 }
 
 /// `initialize_from_mint` CPI instruction.
 pub struct InitializeFromMintCpi<'a, 'b> {
     /// The program to invoke.
-    pub __program: &'b solana_program::account_info::AccountInfo<'a>,
+    pub __program: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The account to store the metadata in.
-    pub mint_inscription_account: &'b solana_program::account_info::AccountInfo<'a>,
+    pub mint_inscription_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The account to store the inscription account's metadata in.
-    pub inscription_metadata_account: &'b solana_program::account_info::AccountInfo<'a>,
+    pub inscription_metadata_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The mint that will be used to derive the PDA.
-    pub mint_account: &'b solana_program::account_info::AccountInfo<'a>,
+    pub mint_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The metadata for the mint.
-    pub token_metadata_account: &'b solana_program::account_info::AccountInfo<'a>,
+    pub token_metadata_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The shard account for the inscription counter.
-    pub inscription_shard_account: &'b solana_program::account_info::AccountInfo<'a>,
+    pub inscription_shard_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The account that will pay for the transaction and rent.
-    pub payer: &'b solana_program::account_info::AccountInfo<'a>,
+    pub payer: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The authority of the inscription account.
-    pub authority: Option<&'b solana_program::account_info::AccountInfo<'a>>,
+    pub authority: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
     /// System program
-    pub system_program: &'b solana_program::account_info::AccountInfo<'a>,
+    pub system_program: &'b domichain_program::account_info::AccountInfo<'a>,
 }
 
 impl<'a, 'b> InitializeFromMintCpi<'a, 'b> {
     pub fn new(
-        program: &'b solana_program::account_info::AccountInfo<'a>,
+        program: &'b domichain_program::account_info::AccountInfo<'a>,
         accounts: InitializeFromMintCpiAccounts<'a, 'b>,
     ) -> Self {
         Self {
@@ -284,25 +287,25 @@ impl<'a, 'b> InitializeFromMintCpi<'a, 'b> {
         }
     }
     #[inline(always)]
-    pub fn invoke(&self) -> solana_program::entrypoint::ProgramResult {
+    pub fn invoke(&self) -> domichain_program::entrypoint::ProgramResult {
         self.invoke_signed_with_remaining_accounts(&[], &[])
     }
     #[inline(always)]
     pub fn invoke_with_remaining_accounts(
         &self,
         remaining_accounts: &[(
-            &'b solana_program::account_info::AccountInfo<'a>,
+            &'b domichain_program::account_info::AccountInfo<'a>,
             bool,
             bool,
         )],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> domichain_program::entrypoint::ProgramResult {
         self.invoke_signed_with_remaining_accounts(&[], remaining_accounts)
     }
     #[inline(always)]
     pub fn invoke_signed(
         &self,
         signers_seeds: &[&[&[u8]]],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> domichain_program::entrypoint::ProgramResult {
         self.invoke_signed_with_remaining_accounts(signers_seeds, &[])
     }
     #[allow(clippy::clone_on_copy)]
@@ -311,53 +314,53 @@ impl<'a, 'b> InitializeFromMintCpi<'a, 'b> {
         &self,
         signers_seeds: &[&[&[u8]]],
         remaining_accounts: &[(
-            &'b solana_program::account_info::AccountInfo<'a>,
+            &'b domichain_program::account_info::AccountInfo<'a>,
             bool,
             bool,
         )],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> domichain_program::entrypoint::ProgramResult {
         let mut accounts = Vec::with_capacity(8 + remaining_accounts.len());
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(domichain_program::instruction::AccountMeta::new(
             *self.mint_inscription_account.key,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(domichain_program::instruction::AccountMeta::new(
             *self.inscription_metadata_account.key,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(domichain_program::instruction::AccountMeta::new_readonly(
             *self.mint_account.key,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(domichain_program::instruction::AccountMeta::new_readonly(
             *self.token_metadata_account.key,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(domichain_program::instruction::AccountMeta::new(
             *self.inscription_shard_account.key,
             false,
         ));
-        accounts.push(solana_program::instruction::AccountMeta::new(
+        accounts.push(domichain_program::instruction::AccountMeta::new(
             *self.payer.key,
             true,
         ));
         if let Some(authority) = self.authority {
-            accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+            accounts.push(domichain_program::instruction::AccountMeta::new_readonly(
                 *authority.key,
                 true,
             ));
         } else {
-            accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+            accounts.push(domichain_program::instruction::AccountMeta::new_readonly(
                 crate::MPL_INSCRIPTION_ID,
                 false,
             ));
         }
-        accounts.push(solana_program::instruction::AccountMeta::new_readonly(
+        accounts.push(domichain_program::instruction::AccountMeta::new_readonly(
             *self.system_program.key,
             false,
         ));
         remaining_accounts.iter().for_each(|remaining_account| {
-            accounts.push(solana_program::instruction::AccountMeta {
+            accounts.push(domichain_program::instruction::AccountMeta {
                 pubkey: *remaining_account.0.key,
                 is_signer: remaining_account.1,
                 is_writable: remaining_account.2,
@@ -367,7 +370,7 @@ impl<'a, 'b> InitializeFromMintCpi<'a, 'b> {
             .try_to_vec()
             .unwrap();
 
-        let instruction = solana_program::instruction::Instruction {
+        let instruction = domichain_program::instruction::Instruction {
             program_id: crate::MPL_INSCRIPTION_ID,
             accounts,
             data,
@@ -389,9 +392,9 @@ impl<'a, 'b> InitializeFromMintCpi<'a, 'b> {
             .for_each(|remaining_account| account_infos.push(remaining_account.0.clone()));
 
         if signers_seeds.is_empty() {
-            solana_program::program::invoke(&instruction, &account_infos)
+            domichain_program::program::invoke(&instruction, &account_infos)
         } else {
-            solana_program::program::invoke_signed(&instruction, &account_infos, signers_seeds)
+            domichain_program::program::invoke_signed(&instruction, &account_infos, signers_seeds)
         }
     }
 }
@@ -402,7 +405,7 @@ pub struct InitializeFromMintCpiBuilder<'a, 'b> {
 }
 
 impl<'a, 'b> InitializeFromMintCpiBuilder<'a, 'b> {
-    pub fn new(program: &'b solana_program::account_info::AccountInfo<'a>) -> Self {
+    pub fn new(program: &'b domichain_program::account_info::AccountInfo<'a>) -> Self {
         let instruction = Box::new(InitializeFromMintCpiBuilderInstruction {
             __program: program,
             mint_inscription_account: None,
@@ -421,7 +424,7 @@ impl<'a, 'b> InitializeFromMintCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn mint_inscription_account(
         &mut self,
-        mint_inscription_account: &'b solana_program::account_info::AccountInfo<'a>,
+        mint_inscription_account: &'b domichain_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.mint_inscription_account = Some(mint_inscription_account);
         self
@@ -430,7 +433,7 @@ impl<'a, 'b> InitializeFromMintCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn inscription_metadata_account(
         &mut self,
-        inscription_metadata_account: &'b solana_program::account_info::AccountInfo<'a>,
+        inscription_metadata_account: &'b domichain_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.inscription_metadata_account = Some(inscription_metadata_account);
         self
@@ -439,7 +442,7 @@ impl<'a, 'b> InitializeFromMintCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn mint_account(
         &mut self,
-        mint_account: &'b solana_program::account_info::AccountInfo<'a>,
+        mint_account: &'b domichain_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.mint_account = Some(mint_account);
         self
@@ -448,7 +451,7 @@ impl<'a, 'b> InitializeFromMintCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn token_metadata_account(
         &mut self,
-        token_metadata_account: &'b solana_program::account_info::AccountInfo<'a>,
+        token_metadata_account: &'b domichain_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.token_metadata_account = Some(token_metadata_account);
         self
@@ -457,14 +460,17 @@ impl<'a, 'b> InitializeFromMintCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn inscription_shard_account(
         &mut self,
-        inscription_shard_account: &'b solana_program::account_info::AccountInfo<'a>,
+        inscription_shard_account: &'b domichain_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.inscription_shard_account = Some(inscription_shard_account);
         self
     }
     /// The account that will pay for the transaction and rent.
     #[inline(always)]
-    pub fn payer(&mut self, payer: &'b solana_program::account_info::AccountInfo<'a>) -> &mut Self {
+    pub fn payer(
+        &mut self,
+        payer: &'b domichain_program::account_info::AccountInfo<'a>,
+    ) -> &mut Self {
         self.instruction.payer = Some(payer);
         self
     }
@@ -473,7 +479,7 @@ impl<'a, 'b> InitializeFromMintCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn authority(
         &mut self,
-        authority: Option<&'b solana_program::account_info::AccountInfo<'a>>,
+        authority: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
     ) -> &mut Self {
         self.instruction.authority = authority;
         self
@@ -482,7 +488,7 @@ impl<'a, 'b> InitializeFromMintCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn system_program(
         &mut self,
-        system_program: &'b solana_program::account_info::AccountInfo<'a>,
+        system_program: &'b domichain_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.system_program = Some(system_program);
         self
@@ -491,7 +497,7 @@ impl<'a, 'b> InitializeFromMintCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn add_remaining_account(
         &mut self,
-        account: &'b solana_program::account_info::AccountInfo<'a>,
+        account: &'b domichain_program::account_info::AccountInfo<'a>,
         is_writable: bool,
         is_signer: bool,
     ) -> &mut Self {
@@ -508,7 +514,7 @@ impl<'a, 'b> InitializeFromMintCpiBuilder<'a, 'b> {
     pub fn add_remaining_accounts(
         &mut self,
         accounts: &[(
-            &'b solana_program::account_info::AccountInfo<'a>,
+            &'b domichain_program::account_info::AccountInfo<'a>,
             bool,
             bool,
         )],
@@ -519,7 +525,7 @@ impl<'a, 'b> InitializeFromMintCpiBuilder<'a, 'b> {
         self
     }
     #[inline(always)]
-    pub fn invoke(&self) -> solana_program::entrypoint::ProgramResult {
+    pub fn invoke(&self) -> domichain_program::entrypoint::ProgramResult {
         self.invoke_signed(&[])
     }
     #[allow(clippy::clone_on_copy)]
@@ -527,7 +533,7 @@ impl<'a, 'b> InitializeFromMintCpiBuilder<'a, 'b> {
     pub fn invoke_signed(
         &self,
         signers_seeds: &[&[&[u8]]],
-    ) -> solana_program::entrypoint::ProgramResult {
+    ) -> domichain_program::entrypoint::ProgramResult {
         let instruction = InitializeFromMintCpi {
             __program: self.instruction.__program,
 
@@ -573,18 +579,18 @@ impl<'a, 'b> InitializeFromMintCpiBuilder<'a, 'b> {
 }
 
 struct InitializeFromMintCpiBuilderInstruction<'a, 'b> {
-    __program: &'b solana_program::account_info::AccountInfo<'a>,
-    mint_inscription_account: Option<&'b solana_program::account_info::AccountInfo<'a>>,
-    inscription_metadata_account: Option<&'b solana_program::account_info::AccountInfo<'a>>,
-    mint_account: Option<&'b solana_program::account_info::AccountInfo<'a>>,
-    token_metadata_account: Option<&'b solana_program::account_info::AccountInfo<'a>>,
-    inscription_shard_account: Option<&'b solana_program::account_info::AccountInfo<'a>>,
-    payer: Option<&'b solana_program::account_info::AccountInfo<'a>>,
-    authority: Option<&'b solana_program::account_info::AccountInfo<'a>>,
-    system_program: Option<&'b solana_program::account_info::AccountInfo<'a>>,
+    __program: &'b domichain_program::account_info::AccountInfo<'a>,
+    mint_inscription_account: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
+    inscription_metadata_account: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
+    mint_account: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
+    token_metadata_account: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
+    inscription_shard_account: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
+    payer: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
+    authority: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
+    system_program: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
     /// Additional instruction accounts `(AccountInfo, is_writable, is_signer)`.
     __remaining_accounts: Vec<(
-        &'b solana_program::account_info::AccountInfo<'a>,
+        &'b domichain_program::account_info::AccountInfo<'a>,
         bool,
         bool,
     )>,

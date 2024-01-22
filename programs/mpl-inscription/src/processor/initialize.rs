@@ -1,9 +1,9 @@
 use borsh::{BorshDeserialize, BorshSerialize};
-use mpl_utils::{assert_derivation, assert_signer, create_or_allocate_account_raw};
-use solana_program::{
+use domichain_program::{
     account_info::AccountInfo, entrypoint::ProgramResult, program::invoke,
     program_memory::sol_memcpy, rent::Rent, system_instruction, system_program, sysvar::Sysvar,
 };
+use mpl_utils::{assert_derivation, assert_signer, create_or_allocate_account_raw};
 
 use crate::{
     error::MplInscriptionError,
