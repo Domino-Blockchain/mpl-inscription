@@ -70,7 +70,7 @@ export function removeAuthority(
   // Program ID.
   const programId = context.programs.getPublicKey(
     'mplInscription',
-    '1NSCRfGeyo7wPUazGbaPBUsTM49e1k2aXewHGARfzSo'
+    '1NSA9E2dwbXfhmvP3VnnjpT8G5R89qnyw7AkXCjhzoB'
   );
 
   // Accounts.

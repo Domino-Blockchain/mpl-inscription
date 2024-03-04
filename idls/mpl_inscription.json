@@ -9,50 +9,38 @@
           "name": "inscriptionAccount",
           "isMut": true,
           "isSigner": true,
-          "docs": [
-            "The account to store the metadata in."
-          ]
+          "docs": ["The account to store the metadata in."]
         },
         {
           "name": "inscriptionMetadataAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to store the inscription account's metadata in."
-          ]
+          "docs": ["The account to store the inscription account's metadata in."]
         },
         {
           "name": "inscriptionShardAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The shard account for the inscription counter."
-          ]
+          "docs": ["The shard account for the inscription counter."]
         },
         {
           "name": "payer",
           "isMut": true,
           "isSigner": true,
-          "docs": [
-            "The account that will pay for the transaction and rent."
-          ]
+          "docs": ["The account that will pay for the transaction and rent."]
         },
         {
           "name": "authority",
           "isMut": false,
           "isSigner": true,
           "isOptional": true,
-          "docs": [
-            "The authority of the inscription account."
-          ]
+          "docs": ["The authority of the inscription account."]
         },
         {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false,
-          "docs": [
-            "System program"
-          ]
+          "docs": ["System program"]
         }
       ],
       "args": [],
@@ -68,66 +56,50 @@
           "name": "mintInscriptionAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to store the metadata in."
-          ]
+          "docs": ["The account to store the metadata in."]
         },
         {
           "name": "inscriptionMetadataAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to store the inscription account's metadata in."
-          ]
+          "docs": ["The account to store the inscription account's metadata in."]
         },
         {
           "name": "mintAccount",
           "isMut": false,
           "isSigner": false,
-          "docs": [
-            "The mint that will be used to derive the PDA."
-          ]
+          "docs": ["The mint that will be used to derive the PDA."]
         },
         {
           "name": "tokenMetadataAccount",
           "isMut": false,
           "isSigner": false,
-          "docs": [
-            "The metadata for the mint."
-          ]
+          "docs": ["The metadata for the mint."]
         },
         {
           "name": "inscriptionShardAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The shard account for the inscription counter."
-          ]
+          "docs": ["The shard account for the inscription counter."]
         },
         {
           "name": "payer",
           "isMut": true,
           "isSigner": true,
-          "docs": [
-            "The account that will pay for the transaction and rent."
-          ]
+          "docs": ["The account that will pay for the transaction and rent."]
         },
         {
           "name": "authority",
           "isMut": false,
           "isSigner": true,
           "isOptional": true,
-          "docs": [
-            "The authority of the inscription account."
-          ]
+          "docs": ["The authority of the inscription account."]
         },
         {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false,
-          "docs": [
-            "System program"
-          ]
+          "docs": ["System program"]
         }
       ],
       "args": [],
@@ -143,42 +115,32 @@
           "name": "inscriptionAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to store the metadata in."
-          ]
+          "docs": ["The account to store the metadata in."]
         },
         {
           "name": "inscriptionMetadataAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to store the inscription account's metadata in."
-          ]
+          "docs": ["The account to store the inscription account's metadata in."]
         },
         {
           "name": "payer",
           "isMut": true,
           "isSigner": true,
-          "docs": [
-            "The account that will pay for the transaction and rent."
-          ]
+          "docs": ["The account that will pay for the transaction and rent."]
         },
         {
           "name": "authority",
           "isMut": false,
           "isSigner": true,
           "isOptional": true,
-          "docs": [
-            "The authority of the inscription account."
-          ]
+          "docs": ["The authority of the inscription account."]
         },
         {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false,
-          "docs": [
-            "System program"
-          ]
+          "docs": ["System program"]
         }
       ],
       "args": [
@@ -201,42 +163,32 @@
           "name": "inscriptionAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to store the metadata in."
-          ]
+          "docs": ["The account to store the metadata in."]
         },
         {
           "name": "inscriptionMetadataAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to store the inscription account's metadata in."
-          ]
+          "docs": ["The account to store the inscription account's metadata in."]
         },
         {
           "name": "payer",
           "isMut": true,
           "isSigner": true,
-          "docs": [
-            "The account that will pay for the transaction and rent."
-          ]
+          "docs": ["The account that will pay for the transaction and rent."]
         },
         {
           "name": "authority",
           "isMut": false,
           "isSigner": true,
           "isOptional": true,
-          "docs": [
-            "The authority of the inscription account."
-          ]
+          "docs": ["The authority of the inscription account."]
         },
         {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false,
-          "docs": [
-            "System program"
-          ]
+          "docs": ["System program"]
         }
       ],
       "args": [
@@ -259,42 +211,32 @@
           "name": "inscriptionAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to store the metadata in."
-          ]
+          "docs": ["The account to store the metadata in."]
         },
         {
           "name": "inscriptionMetadataAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to store the inscription account's metadata in."
-          ]
+          "docs": ["The account to store the inscription account's metadata in."]
         },
         {
           "name": "payer",
           "isMut": true,
           "isSigner": true,
-          "docs": [
-            "The account that will pay for the transaction and rent."
-          ]
+          "docs": ["The account that will pay for the transaction and rent."]
         },
         {
           "name": "authority",
           "isMut": false,
           "isSigner": true,
           "isOptional": true,
-          "docs": [
-            "The authority of the inscription account."
-          ]
+          "docs": ["The authority of the inscription account."]
         },
         {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false,
-          "docs": [
-            "System program"
-          ]
+          "docs": ["System program"]
         }
       ],
       "args": [
@@ -317,34 +259,26 @@
           "name": "inscriptionMetadataAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to store the metadata's metadata in."
-          ]
+          "docs": ["The account to store the metadata's metadata in."]
         },
         {
           "name": "payer",
           "isMut": true,
           "isSigner": true,
-          "docs": [
-            "The account that will pay for the transaction and rent."
-          ]
+          "docs": ["The account that will pay for the transaction and rent."]
         },
         {
           "name": "authority",
           "isMut": false,
           "isSigner": true,
           "isOptional": true,
-          "docs": [
-            "The authority of the inscription account."
-          ]
+          "docs": ["The authority of the inscription account."]
         },
         {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false,
-          "docs": [
-            "System program"
-          ]
+          "docs": ["System program"]
         }
       ],
       "args": [
@@ -367,34 +301,26 @@
           "name": "inscriptionMetadataAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to store the metadata's metadata in."
-          ]
+          "docs": ["The account to store the metadata's metadata in."]
         },
         {
           "name": "payer",
           "isMut": true,
           "isSigner": true,
-          "docs": [
-            "The account paying for the transaction and rent."
-          ]
+          "docs": ["The account paying for the transaction and rent."]
         },
         {
           "name": "authority",
           "isMut": false,
           "isSigner": true,
           "isOptional": true,
-          "docs": [
-            "The authority of the inscription account to be removed."
-          ]
+          "docs": ["The authority of the inscription account to be removed."]
         },
         {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false,
-          "docs": [
-            "System program"
-          ]
+          "docs": ["System program"]
         }
       ],
       "args": [],
@@ -410,25 +336,19 @@
           "name": "shardAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to store the shard data in."
-          ]
+          "docs": ["The account to store the shard data in."]
         },
         {
           "name": "payer",
           "isMut": true,
           "isSigner": true,
-          "docs": [
-            "The account that will pay for the transaction and rent."
-          ]
+          "docs": ["The account that will pay for the transaction and rent."]
         },
         {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false,
-          "docs": [
-            "System program"
-          ]
+          "docs": ["System program"]
         }
       ],
       "args": [
@@ -451,42 +371,32 @@
           "name": "inscriptionMetadataAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to store the inscription account's metadata in."
-          ]
+          "docs": ["The account to store the inscription account's metadata in."]
         },
         {
           "name": "associatedInscriptionAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to create and store the new associated data in."
-          ]
+          "docs": ["The account to create and store the new associated data in."]
         },
         {
           "name": "payer",
           "isMut": true,
           "isSigner": true,
-          "docs": [
-            "The account that will pay for the transaction and rent."
-          ]
+          "docs": ["The account that will pay for the transaction and rent."]
         },
         {
           "name": "authority",
           "isMut": false,
           "isSigner": true,
           "isOptional": true,
-          "docs": [
-            "The authority of the inscription account."
-          ]
+          "docs": ["The authority of the inscription account."]
         },
         {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false,
-          "docs": [
-            "System program"
-          ]
+          "docs": ["System program"]
         }
       ],
       "args": [
@@ -509,42 +419,32 @@
           "name": "inscriptionAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to store the metadata in."
-          ]
+          "docs": ["The account to store the metadata in."]
         },
         {
           "name": "inscriptionMetadataAccount",
           "isMut": true,
           "isSigner": false,
-          "docs": [
-            "The account to store the inscription account's metadata in."
-          ]
+          "docs": ["The account to store the inscription account's metadata in."]
         },
         {
           "name": "payer",
           "isMut": true,
           "isSigner": true,
-          "docs": [
-            "The account that will pay for the transaction and rent."
-          ]
+          "docs": ["The account that will pay for the transaction and rent."]
         },
         {
           "name": "authority",
           "isMut": false,
           "isSigner": true,
           "isOptional": true,
-          "docs": [
-            "The authority of the inscription account."
-          ]
+          "docs": ["The authority of the inscription account."]
         },
         {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false,
-          "docs": [
-            "System program"
-          ]
+          "docs": ["System program"]
         }
       ],
       "args": [
@@ -614,10 +514,7 @@
           {
             "name": "padding",
             "type": {
-              "array": [
-                "u8",
-                8
-              ]
+              "array": ["u8", 8]
             }
           }
         ]
@@ -904,7 +801,7 @@
   ],
   "metadata": {
     "origin": "shank",
-    "address": "1NSCRfGeyo7wPUazGbaPBUsTM49e1k2aXewHGARfzSo",
+    "address": "1NSA9E2dwbXfhmvP3VnnjpT8G5R89qnyw7AkXCjhzoB",
     "binaryVersion": "0.3.0",
     "libVersion": "0.3.0"
   }

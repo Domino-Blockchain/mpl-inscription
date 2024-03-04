@@ -18,7 +18,7 @@ import {
 } from '../errors';
 
 export const MPL_INSCRIPTION_PROGRAM_ID =
-  '1NSCRfGeyo7wPUazGbaPBUsTM49e1k2aXewHGARfzSo' as PublicKey<'1NSCRfGeyo7wPUazGbaPBUsTM49e1k2aXewHGARfzSo'>;
+  '1NSA9E2dwbXfhmvP3VnnjpT8G5R89qnyw7AkXCjhzoB' as PublicKey<'1NSA9E2dwbXfhmvP3VnnjpT8G5R89qnyw7AkXCjhzoB'>;
 
 export function createMplInscriptionProgram(): Program {
   return {

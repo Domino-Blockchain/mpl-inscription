@@ -12,7 +12,7 @@ module.exports = {
     programs: [
       {
         label: "Mpl Json",
-        programId: "1NSCRfGeyo7wPUazGbaPBUsTM49e1k2aXewHGARfzSo",
+        programId: "1NSA9E2dwbXfhmvP3VnnjpT8G5R89qnyw7AkXCjhzoB",
         deployPath: getProgram("mpl_inscription.so"),
       },
       // Below are external programs that should be included in the local validator.
