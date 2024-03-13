@@ -6,6 +6,7 @@ use domichain_program::{
 use mpl_utils::{
     assert_derivation, assert_owned_by, assert_signer, create_or_allocate_account_raw,
 };
+
 // use token_metadata::accounts::Metadata;
 
 use crate::{
@@ -115,6 +116,7 @@ pub(crate) fn process_initialize_from_mint<'a>(accounts: &'a [AccountInfo<'a>]) 
         bump,
         inscription_bump: Some(inscription_bump),
         update_authorities: vec![*authority.key],
+        mint: Some(*ctx.accounts.mint_account.key),
         ..InscriptionMetadata::default()
     };
 

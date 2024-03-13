@@ -6,7 +6,7 @@ const clientDir = path.join(__dirname, "..", "clients");
 const idlDir = path.join(__dirname, "..", "idls");
 
 // Instanciate Kinobi.
-const kinobi = k.createFromIdls([path.join(idlDir, "mpl_inscription.json")]);
+const kinobi = k.createFromIdls([path.join(idlDir, "mpl_inscription_program.json")]);
 
 // Update programs.
 kinobi.update(
@@ -114,6 +114,12 @@ kinobi.update(
       account: "inscriptionMetadataAccount",
       ignoreIfOptional: true,
       instruction: "initialize",
+      ...k.pdaDefault("inscriptionMetadata"),
+    },
+    {
+      account: "inscriptionMetadataAccount",
+      ignoreIfOptional: true,
+      instruction: "initializeAssociatedInscription",
       ...k.pdaDefault("inscriptionMetadata"),
     },
     {

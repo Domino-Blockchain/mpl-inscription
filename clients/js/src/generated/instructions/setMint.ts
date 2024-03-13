@@ -6,7 +6,6 @@
  * @see https://github.com/metaplex-foundation/kinobi
  */
 
-import { findMetadataPda } from '@metaplex-foundation/mpl-token-metadata';
 import {
   Context,
   Pda,
@@ -24,70 +23,56 @@ import {
 import {
   ResolvedAccount,
   ResolvedAccountsWithIndices,
-  expectPublicKey,
   getAccountMetasAndSigners,
 } from '../shared';
 
 // Accounts.
-export type InitializeFromMintInstructionAccounts = {
+export type SetMintInstructionAccounts = {
   /** The account where data is stored. */
   mintInscriptionAccount: PublicKey | Pda;
   /** The account to store the inscription account's metadata in. */
   inscriptionMetadataAccount: PublicKey | Pda;
   /** The mint that will be used to derive the PDA. */
   mintAccount: PublicKey | Pda;
-  /** The metadata for the mint. */
-  tokenMetadataAccount?: PublicKey | Pda;
-  /** The shard account for the inscription counter. */
-  inscriptionShardAccount: PublicKey | Pda;
   /** The account that will pay for the rent. */
   payer?: Signer;
-  /** The authority of the inscription account. */
-  authority?: Signer;
   /** System program */
   systemProgram?: PublicKey | Pda;
 };
 
 // Data.
-export type InitializeFromMintInstructionData = { discriminator: number };
+export type SetMintInstructionData = { discriminator: number };
 
-export type InitializeFromMintInstructionDataArgs = {};
+export type SetMintInstructionDataArgs = {};
 
-export function getInitializeFromMintInstructionDataSerializer(): Serializer<
-  InitializeFromMintInstructionDataArgs,
-  InitializeFromMintInstructionData
+export function getSetMintInstructionDataSerializer(): Serializer<
+  SetMintInstructionDataArgs,
+  SetMintInstructionData
 > {
-  return mapSerializer<
-    InitializeFromMintInstructionDataArgs,
-    any,
-    InitializeFromMintInstructionData
-  >(
-    struct<InitializeFromMintInstructionData>([['discriminator', u8()]], {
-      description: 'InitializeFromMintInstructionData',
+  return mapSerializer<SetMintInstructionDataArgs, any, SetMintInstructionData>(
+    struct<SetMintInstructionData>([['discriminator', u8()]], {
+      description: 'SetMintInstructionData',
     }),
-    (value) => ({ ...value, discriminator: 1 })
-  ) as Serializer<
-    InitializeFromMintInstructionDataArgs,
-    InitializeFromMintInstructionData
-  >;
+    (value) => ({ ...value, discriminator: 10 })
+  ) as Serializer<SetMintInstructionDataArgs, SetMintInstructionData>;
 }
 
 // Instruction.
-export function initializeFromMint(
-  context: Pick<Context, 'eddsa' | 'payer' | 'programs'>,
-  input: InitializeFromMintInstructionAccounts
+export function setMint(
+  context: Pick<Context, 'payer' | 'programs'>,
+  input: SetMintInstructionAccounts
 ): TransactionBuilder {
   // Program ID.
   const programId = context.programs.getPublicKey(
     'mplInscription',
-    '1NSA9E2dwbXfhmvP3VnnjpT8G5R89qnyw7AkXCjhzoB'
+    '1NSCRfGeyo7wPUazGbaPBUsTM49e1k2aXewHGARfzSo'
   );
 
   // Accounts.
   const resolvedAccounts: ResolvedAccountsWithIndices = {
     mintInscriptionAccount: {
       index: 0,
-      isWritable: true,
+      isWritable: false,
       value: input.mintInscriptionAccount ?? null,
     },
     inscriptionMetadataAccount: {
@@ -100,31 +85,15 @@ export function initializeFromMint(
       isWritable: false,
       value: input.mintAccount ?? null,
     },
-    tokenMetadataAccount: {
-      index: 3,
-      isWritable: false,
-      value: input.tokenMetadataAccount ?? null,
-    },
-    inscriptionShardAccount: {
-      index: 4,
-      isWritable: true,
-      value: input.inscriptionShardAccount ?? null,
-    },
-    payer: { index: 5, isWritable: true, value: input.payer ?? null },
-    authority: { index: 6, isWritable: false, value: input.authority ?? null },
+    payer: { index: 3, isWritable: true, value: input.payer ?? null },
     systemProgram: {
-      index: 7,
+      index: 4,
       isWritable: false,
       value: input.systemProgram ?? null,
     },
   };
 
   // Default values.
-  if (!resolvedAccounts.tokenMetadataAccount.value) {
-    resolvedAccounts.tokenMetadataAccount.value = findMetadataPda(context, {
-      mint: expectPublicKey(resolvedAccounts.mintAccount.value),
-    });
-  }
   if (!resolvedAccounts.payer.value) {
     resolvedAccounts.payer.value = context.payer;
   }
@@ -149,7 +118,7 @@ export function initializeFromMint(
   );
 
   // Data.
-  const data = getInitializeFromMintInstructionDataSerializer().serialize({});
+  const data = getSetMintInstructionDataSerializer().serialize({});
 
   // Bytes Created On Chain.
   const bytesCreatedOnChain = 0;

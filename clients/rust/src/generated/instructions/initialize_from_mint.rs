@@ -10,7 +10,7 @@ use borsh::BorshSerialize;
 
 /// Accounts.
 pub struct InitializeFromMint {
-    /// The account to store the metadata in.
+    /// The account where data is stored.
     pub mint_inscription_account: domichain_program::pubkey::Pubkey,
     /// The account to store the inscription account's metadata in.
     pub inscription_metadata_account: domichain_program::pubkey::Pubkey,
@@ -20,7 +20,7 @@ pub struct InitializeFromMint {
     pub token_metadata_account: domichain_program::pubkey::Pubkey,
     /// The shard account for the inscription counter.
     pub inscription_shard_account: domichain_program::pubkey::Pubkey,
-    /// The account that will pay for the transaction and rent.
+    /// The account that will pay for the rent.
     pub payer: domichain_program::pubkey::Pubkey,
     /// The authority of the inscription account.
     pub authority: Option<domichain_program::pubkey::Pubkey>,
@@ -117,7 +117,7 @@ impl InitializeFromMintBuilder {
     pub fn new() -> Self {
         Self::default()
     }
-    /// The account to store the metadata in.
+    /// The account where data is stored.
     #[inline(always)]
     pub fn mint_inscription_account(
         &mut self,
@@ -159,7 +159,7 @@ impl InitializeFromMintBuilder {
         self.inscription_shard_account = Some(inscription_shard_account);
         self
     }
-    /// The account that will pay for the transaction and rent.
+    /// The account that will pay for the rent.
     #[inline(always)]
     pub fn payer(&mut self, payer: domichain_program::pubkey::Pubkey) -> &mut Self {
         self.payer = Some(payer);
@@ -229,7 +229,7 @@ impl InitializeFromMintBuilder {
 
 /// `initialize_from_mint` CPI accounts.
 pub struct InitializeFromMintCpiAccounts<'a, 'b> {
-    /// The account to store the metadata in.
+    /// The account where data is stored.
     pub mint_inscription_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The account to store the inscription account's metadata in.
     pub inscription_metadata_account: &'b domichain_program::account_info::AccountInfo<'a>,
@@ -239,7 +239,7 @@ pub struct InitializeFromMintCpiAccounts<'a, 'b> {
     pub token_metadata_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The shard account for the inscription counter.
     pub inscription_shard_account: &'b domichain_program::account_info::AccountInfo<'a>,
-    /// The account that will pay for the transaction and rent.
+    /// The account that will pay for the rent.
     pub payer: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The authority of the inscription account.
     pub authority: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
@@ -251,7 +251,7 @@ pub struct InitializeFromMintCpiAccounts<'a, 'b> {
 pub struct InitializeFromMintCpi<'a, 'b> {
     /// The program to invoke.
     pub __program: &'b domichain_program::account_info::AccountInfo<'a>,
-    /// The account to store the metadata in.
+    /// The account where data is stored.
     pub mint_inscription_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The account to store the inscription account's metadata in.
     pub inscription_metadata_account: &'b domichain_program::account_info::AccountInfo<'a>,
@@ -261,7 +261,7 @@ pub struct InitializeFromMintCpi<'a, 'b> {
     pub token_metadata_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The shard account for the inscription counter.
     pub inscription_shard_account: &'b domichain_program::account_info::AccountInfo<'a>,
-    /// The account that will pay for the transaction and rent.
+    /// The account that will pay for the rent.
     pub payer: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The authority of the inscription account.
     pub authority: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
@@ -420,7 +420,7 @@ impl<'a, 'b> InitializeFromMintCpiBuilder<'a, 'b> {
         });
         Self { instruction }
     }
-    /// The account to store the metadata in.
+    /// The account where data is stored.
     #[inline(always)]
     pub fn mint_inscription_account(
         &mut self,
@@ -465,7 +465,7 @@ impl<'a, 'b> InitializeFromMintCpiBuilder<'a, 'b> {
         self.instruction.inscription_shard_account = Some(inscription_shard_account);
         self
     }
-    /// The account that will pay for the transaction and rent.
+    /// The account that will pay for the rent.
     #[inline(always)]
     pub fn payer(
         &mut self,

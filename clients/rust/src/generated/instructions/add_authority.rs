@@ -13,7 +13,7 @@ use domichain_program::pubkey::Pubkey;
 pub struct AddAuthority {
     /// The account to store the metadata's metadata in.
     pub inscription_metadata_account: domichain_program::pubkey::Pubkey,
-    /// The account that will pay for the transaction and rent.
+    /// The account that will pay for the rent.
     pub payer: domichain_program::pubkey::Pubkey,
     /// The authority of the inscription account.
     pub authority: Option<domichain_program::pubkey::Pubkey>,
@@ -110,7 +110,7 @@ impl AddAuthorityBuilder {
         self.inscription_metadata_account = Some(inscription_metadata_account);
         self
     }
-    /// The account that will pay for the transaction and rent.
+    /// The account that will pay for the rent.
     #[inline(always)]
     pub fn payer(&mut self, payer: domichain_program::pubkey::Pubkey) -> &mut Self {
         self.payer = Some(payer);
@@ -183,7 +183,7 @@ impl AddAuthorityBuilder {
 pub struct AddAuthorityCpiAccounts<'a, 'b> {
     /// The account to store the metadata's metadata in.
     pub inscription_metadata_account: &'b domichain_program::account_info::AccountInfo<'a>,
-    /// The account that will pay for the transaction and rent.
+    /// The account that will pay for the rent.
     pub payer: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The authority of the inscription account.
     pub authority: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
@@ -197,7 +197,7 @@ pub struct AddAuthorityCpi<'a, 'b> {
     pub __program: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The account to store the metadata's metadata in.
     pub inscription_metadata_account: &'b domichain_program::account_info::AccountInfo<'a>,
-    /// The account that will pay for the transaction and rent.
+    /// The account that will pay for the rent.
     pub payer: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The authority of the inscription account.
     pub authority: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
@@ -342,7 +342,7 @@ impl<'a, 'b> AddAuthorityCpiBuilder<'a, 'b> {
         self.instruction.inscription_metadata_account = Some(inscription_metadata_account);
         self
     }
-    /// The account that will pay for the transaction and rent.
+    /// The account that will pay for the rent.
     #[inline(always)]
     pub fn payer(
         &mut self,

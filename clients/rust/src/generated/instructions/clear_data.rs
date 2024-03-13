@@ -10,11 +10,11 @@ use borsh::BorshSerialize;
 
 /// Accounts.
 pub struct ClearData {
-    /// The account to store the metadata in.
+    /// The account where data is stored.
     pub inscription_account: domichain_program::pubkey::Pubkey,
     /// The account to store the inscription account's metadata in.
     pub inscription_metadata_account: domichain_program::pubkey::Pubkey,
-    /// The account that will pay for the transaction and rent.
+    /// The account that will pay for the rent.
     pub payer: domichain_program::pubkey::Pubkey,
     /// The authority of the inscription account.
     pub authority: Option<domichain_program::pubkey::Pubkey>,
@@ -107,7 +107,7 @@ impl ClearDataBuilder {
     pub fn new() -> Self {
         Self::default()
     }
-    /// The account to store the metadata in.
+    /// The account where data is stored.
     #[inline(always)]
     pub fn inscription_account(
         &mut self,
@@ -125,7 +125,7 @@ impl ClearDataBuilder {
         self.inscription_metadata_account = Some(inscription_metadata_account);
         self
     }
-    /// The account that will pay for the transaction and rent.
+    /// The account that will pay for the rent.
     #[inline(always)]
     pub fn payer(&mut self, payer: domichain_program::pubkey::Pubkey) -> &mut Self {
         self.payer = Some(payer);
@@ -197,11 +197,11 @@ impl ClearDataBuilder {
 
 /// `clear_data` CPI accounts.
 pub struct ClearDataCpiAccounts<'a, 'b> {
-    /// The account to store the metadata in.
+    /// The account where data is stored.
     pub inscription_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The account to store the inscription account's metadata in.
     pub inscription_metadata_account: &'b domichain_program::account_info::AccountInfo<'a>,
-    /// The account that will pay for the transaction and rent.
+    /// The account that will pay for the rent.
     pub payer: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The authority of the inscription account.
     pub authority: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
@@ -213,11 +213,11 @@ pub struct ClearDataCpiAccounts<'a, 'b> {
 pub struct ClearDataCpi<'a, 'b> {
     /// The program to invoke.
     pub __program: &'b domichain_program::account_info::AccountInfo<'a>,
-    /// The account to store the metadata in.
+    /// The account where data is stored.
     pub inscription_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The account to store the inscription account's metadata in.
     pub inscription_metadata_account: &'b domichain_program::account_info::AccountInfo<'a>,
-    /// The account that will pay for the transaction and rent.
+    /// The account that will pay for the rent.
     pub payer: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The authority of the inscription account.
     pub authority: Option<&'b domichain_program::account_info::AccountInfo<'a>>,
@@ -360,7 +360,7 @@ impl<'a, 'b> ClearDataCpiBuilder<'a, 'b> {
         });
         Self { instruction }
     }
-    /// The account to store the metadata in.
+    /// The account where data is stored.
     #[inline(always)]
     pub fn inscription_account(
         &mut self,
@@ -378,7 +378,7 @@ impl<'a, 'b> ClearDataCpiBuilder<'a, 'b> {
         self.instruction.inscription_metadata_account = Some(inscription_metadata_account);
         self
     }
-    /// The account that will pay for the transaction and rent.
+    /// The account that will pay for the rent.
     #[inline(always)]
     pub fn payer(
         &mut self,
