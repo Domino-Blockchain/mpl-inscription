@@ -1,10 +1,10 @@
 use borsh::{BorshDeserialize, BorshSerialize};
 
+use domichain_program::{
+    account_info::AccountInfo, entrypoint::ProgramResult, program_memory::sol_memcpy,
+};
 use mpl_utils::{
     assert_derivation, assert_owned_by, assert_signer, resize_or_reallocate_account_raw,
-};
-use solana_program::{
-    account_info::AccountInfo, entrypoint::ProgramResult, program_memory::sol_memcpy,
 };
 
 use crate::{
@@ -17,7 +17,7 @@ pub(crate) fn process_set_mint<'a>(accounts: &'a [AccountInfo<'a>]) -> ProgramRe
     let ctx = &SetMintAccounts::context(accounts)?;
 
     // Check that the system program is correct.
-    if ctx.accounts.system_program.key != &solana_program::system_program::ID {
+    if ctx.accounts.system_program.key != &domichain_program::system_program::ID {
         return Err(MplInscriptionError::InvalidSystemProgram.into());
     }
 

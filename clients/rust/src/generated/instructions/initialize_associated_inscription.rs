@@ -120,7 +120,7 @@ impl InitializeAssociatedInscriptionBuilder {
     #[inline(always)]
     pub fn inscription_account(
         &mut self,
-        inscription_account: solana_program::pubkey::Pubkey,
+        inscription_account: domichain_program::pubkey::Pubkey,
     ) -> &mut Self {
         self.inscription_account = Some(inscription_account);
         self
@@ -221,7 +221,7 @@ impl InitializeAssociatedInscriptionBuilder {
 /// `initialize_associated_inscription` CPI accounts.
 pub struct InitializeAssociatedInscriptionCpiAccounts<'a, 'b> {
     /// The account where data is stored.
-    pub inscription_account: &'b solana_program::account_info::AccountInfo<'a>,
+    pub inscription_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The account to store the inscription account's metadata in.
     pub inscription_metadata_account: &'b domichain_program::account_info::AccountInfo<'a>,
     /// The account to create and store the new associated data in.
@@ -400,7 +400,7 @@ impl<'a, 'b> InitializeAssociatedInscriptionCpiBuilder<'a, 'b> {
     #[inline(always)]
     pub fn inscription_account(
         &mut self,
-        inscription_account: &'b solana_program::account_info::AccountInfo<'a>,
+        inscription_account: &'b domichain_program::account_info::AccountInfo<'a>,
     ) -> &mut Self {
         self.instruction.inscription_account = Some(inscription_account);
         self
