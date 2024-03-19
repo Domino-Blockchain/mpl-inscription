@@ -1,21 +1,23 @@
 use borsh::BorshDeserialize;
-use mpl_utils::{assert_derivation, assert_signer, resize_or_reallocate_account_raw};
-use solana_program::{
-    account_info::AccountInfo, entrypoint::ProgramResult, program_memory::sol_memcpy,
+use domichain_program::{
+    account_info::AccountInfo,
+    dbg_syscall,
+    entrypoint::{ProgramResult, MAX_PERMITTED_DATA_INCREASE},
     system_program,
 };
+use mpl_utils::{assert_derivation, assert_signer, resize_or_reallocate_account_raw};
 
 use crate::{
     error::MplInscriptionError,
-    instruction::{accounts::WriteDataAccounts, WriteDataArgs},
+    instruction::{accounts::AllocateAccounts, AllocateArgs},
     state::{InscriptionMetadata, ASSOCIATION, PREFIX},
 };
 
-pub(crate) fn process_write_data<'a>(
+pub(crate) fn process_allocate<'a>(
     accounts: &'a [AccountInfo<'a>],
-    args: WriteDataArgs,
+    args: AllocateArgs,
 ) -> ProgramResult {
-    let ctx = &mut WriteDataAccounts::context(accounts)?;
+    let ctx = &mut AllocateAccounts::context(accounts)?;
 
     // Check that the inscription account is already initialized.
     if ctx.accounts.inscription_account.owner != &crate::ID {
@@ -23,14 +25,14 @@ pub(crate) fn process_write_data<'a>(
     }
 
     // Check that the metadata account is already initialized.
-    if (ctx.accounts.inscription_metadata_account.owner != &crate::ID)
-        || ctx.accounts.inscription_metadata_account.data_is_empty()
-    {
+    if ctx.accounts.inscription_metadata_account.owner != &crate::ID {
         return Err(MplInscriptionError::NotInitialized.into());
     }
+    dbg_syscall!("before InscriptionMetadata::try_from_slice");
     let inscription_metadata = InscriptionMetadata::try_from_slice(
         &ctx.accounts.inscription_metadata_account.data.borrow(),
     )?;
+    dbg_syscall!("after InscriptionMetadata::try_from_slice");
 
     // Verify that the derived address is correct for the metadata account.
     match args.associated_tag {
@@ -45,6 +47,7 @@ pub(crate) fn process_write_data<'a>(
                 return Err(MplInscriptionError::AssociationTagTooLong.into());
             }
 
+            dbg_syscall!("before assert_derivation 1");
             let bump = assert_derivation(
                 &crate::ID,
                 ctx.accounts.inscription_account,
@@ -56,6 +59,7 @@ pub(crate) fn process_write_data<'a>(
                 ],
                 MplInscriptionError::DerivedKeyInvalid,
             )?;
+            dbg_syscall!("after assert_derivation 1");
 
             // Find the tag in the associated inscriptions and check the bump.
             if !inscription_metadata
@@ -69,6 +73,7 @@ pub(crate) fn process_write_data<'a>(
             }
         }
         None => {
+            dbg_syscall!("before assert_derivation 2");
             let bump = assert_derivation(
                 &crate::ID,
                 ctx.accounts.inscription_metadata_account,
@@ -79,6 +84,7 @@ pub(crate) fn process_write_data<'a>(
                 ],
                 MplInscriptionError::DerivedKeyInvalid,
             )?;
+            dbg_syscall!("after assert_derivation 2");
             if bump != inscription_metadata.bump {
                 return Err(MplInscriptionError::DerivedKeyInvalid.into());
             }
@@ -107,28 +113,30 @@ pub(crate) fn process_write_data<'a>(
         return Err(MplInscriptionError::InvalidSystemProgram.into());
     }
 
-    let old_size = ctx.accounts.inscription_account.data_len();
-    let write_end = args
-        .offset
-        .checked_add(args.value.len())
+    dbg_syscall!("before max_realloc_size");
+
+    let max_realloc_size = ctx
+        .accounts
+        .inscription_account
+        .data_len()
+        .checked_add(MAX_PERMITTED_DATA_INCREASE)
         .ok_or(MplInscriptionError::NumericalOverflow)?;
 
-    // Resize the account to fit the new data if necessary.
-    if write_end > old_size {
-        resize_or_reallocate_account_raw(
-            ctx.accounts.inscription_account,
-            ctx.accounts.payer,
-            ctx.accounts.system_program,
-            write_end,
-        )?;
-    }
+    dbg_syscall!("after max_realloc_size");
 
-    // Write the inscription metadata to the metadata account.
-    sol_memcpy(
-        &mut ctx.accounts.inscription_account.try_borrow_mut_data()?[args.offset..],
-        &args.value,
-        args.value.len(),
-    );
+    let new_size = std::cmp::min(args.target_size, max_realloc_size);
+
+    dbg_syscall!("before resize_or_reallocate_account_raw");
+
+    // Resize the account to fit the new authority.
+    resize_or_reallocate_account_raw(
+        ctx.accounts.inscription_account,
+        ctx.accounts.payer,
+        ctx.accounts.system_program,
+        new_size,
+    )?;
+
+    dbg_syscall!("after resize_or_reallocate_account_raw");
 
     Ok(())
 }

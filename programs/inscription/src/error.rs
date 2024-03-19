@@ -1,9 +1,9 @@
-use num_derive::FromPrimitive;
-use solana_program::{
+use domichain_program::{
     decode_error::DecodeError,
     msg,
     program_error::{PrintProgramError, ProgramError},
 };
+use num_derive::FromPrimitive;
 use thiserror::Error;
 
 #[derive(Error, Clone, Debug, Eq, PartialEq, FromPrimitive)]
@@ -79,6 +79,10 @@ pub enum MplInscriptionError {
     /// 17 - Remaining Associated Inscription Accounts
     #[error("Cannot close Inscription accounts until all Associated Inscriptions are closed.")]
     RemainingAssociatedInscriptionAccounts,
+
+    /// 18 - Invalid Inscription Metadata Account
+    #[error("The inscription metadata account is invalid.")]
+    InvalidInscriptionMetadataAccount,
 }
 
 impl PrintProgramError for MplInscriptionError {

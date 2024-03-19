@@ -1,31 +1,31 @@
 use borsh::BorshDeserialize;
+use domichain_program::{
+    account_info::AccountInfo, entrypoint::ProgramResult, program_memory::sol_memcpy,
+    system_program,
+};
 use mpl_utils::{assert_derivation, assert_signer, resize_or_reallocate_account_raw};
-use solana_program::{account_info::AccountInfo, entrypoint::ProgramResult, system_program};
 
 use crate::{
     error::MplInscriptionError,
-    instruction::{accounts::ClearDataAccounts, ClearDataArgs},
+    instruction::{accounts::WriteDataAccounts, WriteDataArgs},
     state::{InscriptionMetadata, ASSOCIATION, PREFIX},
 };
 
-pub(crate) fn process_clear_data<'a>(
+pub(crate) fn process_write_data<'a>(
     accounts: &'a [AccountInfo<'a>],
-    args: ClearDataArgs,
+    args: WriteDataArgs,
 ) -> ProgramResult {
-    let ctx = &mut ClearDataAccounts::context(accounts)?;
+    let ctx = &mut WriteDataAccounts::context(accounts)?;
 
     // Check that the inscription account is already initialized.
     if ctx.accounts.inscription_account.owner != &crate::ID {
         return Err(MplInscriptionError::NotInitialized.into());
     }
 
-    // The account is already cleared.
-    if ctx.accounts.inscription_account.data_is_empty() {
-        return Ok(());
-    }
-
     // Check that the metadata account is already initialized.
-    if ctx.accounts.inscription_metadata_account.owner != &crate::ID {
+    if (ctx.accounts.inscription_metadata_account.owner != &crate::ID)
+        || ctx.accounts.inscription_metadata_account.data_is_empty()
+    {
         return Err(MplInscriptionError::NotInitialized.into());
     }
     let inscription_metadata = InscriptionMetadata::try_from_slice(
@@ -107,13 +107,28 @@ pub(crate) fn process_clear_data<'a>(
         return Err(MplInscriptionError::InvalidSystemProgram.into());
     }
 
-    // Resize the account to fit the new authority.
-    resize_or_reallocate_account_raw(
-        ctx.accounts.inscription_account,
-        ctx.accounts.payer,
-        ctx.accounts.system_program,
-        0,
-    )?;
+    let old_size = ctx.accounts.inscription_account.data_len();
+    let write_end = args
+        .offset
+        .checked_add(args.value.len())
+        .ok_or(MplInscriptionError::NumericalOverflow)?;
+
+    // Resize the account to fit the new data if necessary.
+    if write_end > old_size {
+        resize_or_reallocate_account_raw(
+            ctx.accounts.inscription_account,
+            ctx.accounts.payer,
+            ctx.accounts.system_program,
+            write_end,
+        )?;
+    }
+
+    // Write the inscription metadata to the metadata account.
+    sol_memcpy(
+        &mut ctx.accounts.inscription_account.try_borrow_mut_data()?[args.offset..],
+        &args.value,
+        args.value.len(),
+    );
 
     Ok(())
 }

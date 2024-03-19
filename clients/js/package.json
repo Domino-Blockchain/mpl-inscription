@@ -1,6 +1,6 @@
 {
   "name": "@metaplex-foundation/mpl-inscription",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "A simple program for inscribing bytes on chain.",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -29,7 +29,7 @@
     "@metaplex-foundation/mpl-token-metadata": "^3.1.2"
   },
   "peerDependencies": {
-    "@metaplex-foundation/umi": "^0.8.2"
+    "@metaplex-foundation/umi": ">= 0.8.2 < 1"
   },
   "devDependencies": {
     "@ava/typescript": "^3.0.1",

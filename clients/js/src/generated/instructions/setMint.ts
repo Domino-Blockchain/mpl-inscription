@@ -27,63 +27,67 @@ import {
 } from '../shared';
 
 // Accounts.
-export type RemoveAuthorityInstructionAccounts = {
-  /** The account to store the metadata's metadata in. */
+export type SetMintInstructionAccounts = {
+  /** The account where data is stored. */
+  mintInscriptionAccount: PublicKey | Pda;
+  /** The account to store the inscription account's metadata in. */
   inscriptionMetadataAccount: PublicKey | Pda;
-  /** The account paying for the transaction and rent. */
+  /** The mint that will be used to derive the PDA. */
+  mintAccount: PublicKey | Pda;
+  /** The account that will pay for the rent. */
   payer?: Signer;
-  /** The authority of the inscription account to be removed. */
-  authority?: Signer;
   /** System program */
   systemProgram?: PublicKey | Pda;
 };
 
 // Data.
-export type RemoveAuthorityInstructionData = { discriminator: number };
+export type SetMintInstructionData = { discriminator: number };
 
-export type RemoveAuthorityInstructionDataArgs = {};
+export type SetMintInstructionDataArgs = {};
 
-export function getRemoveAuthorityInstructionDataSerializer(): Serializer<
-  RemoveAuthorityInstructionDataArgs,
-  RemoveAuthorityInstructionData
+export function getSetMintInstructionDataSerializer(): Serializer<
+  SetMintInstructionDataArgs,
+  SetMintInstructionData
 > {
-  return mapSerializer<
-    RemoveAuthorityInstructionDataArgs,
-    any,
-    RemoveAuthorityInstructionData
-  >(
-    struct<RemoveAuthorityInstructionData>([['discriminator', u8()]], {
-      description: 'RemoveAuthorityInstructionData',
+  return mapSerializer<SetMintInstructionDataArgs, any, SetMintInstructionData>(
+    struct<SetMintInstructionData>([['discriminator', u8()]], {
+      description: 'SetMintInstructionData',
     }),
-    (value) => ({ ...value, discriminator: 6 })
-  ) as Serializer<
-    RemoveAuthorityInstructionDataArgs,
-    RemoveAuthorityInstructionData
-  >;
+    (value) => ({ ...value, discriminator: 10 })
+  ) as Serializer<SetMintInstructionDataArgs, SetMintInstructionData>;
 }
 
 // Instruction.
-export function removeAuthority(
+export function setMint(
   context: Pick<Context, 'payer' | 'programs'>,
-  input: RemoveAuthorityInstructionAccounts
+  input: SetMintInstructionAccounts
 ): TransactionBuilder {
   // Program ID.
   const programId = context.programs.getPublicKey(
     'mplInscription',
-    '1NSA9E2dwbXfhmvP3VnnjpT8G5R89qnyw7AkXCjhzoB'
+    '1NSCRfGeyo7wPUazGbaPBUsTM49e1k2aXewHGARfzSo'
   );
 
   // Accounts.
   const resolvedAccounts: ResolvedAccountsWithIndices = {
-    inscriptionMetadataAccount: {
+    mintInscriptionAccount: {
       index: 0,
+      isWritable: false,
+      value: input.mintInscriptionAccount ?? null,
+    },
+    inscriptionMetadataAccount: {
+      index: 1,
       isWritable: true,
       value: input.inscriptionMetadataAccount ?? null,
     },
-    payer: { index: 1, isWritable: true, value: input.payer ?? null },
-    authority: { index: 2, isWritable: false, value: input.authority ?? null },
+    mintAccount: {
+      index: 2,
+      isWritable: false,
+      value: input.mintAccount ?? null,
+    },
+    payer: { index: 3, isWritable: true, value: input.payer ?? null },
     systemProgram: {
-      index: 3,
+      index: 4,
       isWritable: false,
       value: input.systemProgram ?? null,
     },
@@ -114,7 +118,7 @@ export function removeAuthority(
   );
 
   // Data.
-  const data = getRemoveAuthorityInstructionDataSerializer().serialize({});
+  const data = getSetMintInstructionDataSerializer().serialize({});
 
   // Bytes Created On Chain.
   const bytesCreatedOnChain = 0;

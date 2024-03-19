@@ -1,26 +1,27 @@
 use borsh::BorshDeserialize;
+use domichain_program::{account_info::AccountInfo, entrypoint::ProgramResult, system_program};
 use mpl_utils::{assert_derivation, assert_signer, resize_or_reallocate_account_raw};
-use solana_program::{
-    account_info::AccountInfo,
-    entrypoint::{ProgramResult, MAX_PERMITTED_DATA_INCREASE},
-    system_program,
-};
 
 use crate::{
     error::MplInscriptionError,
-    instruction::{accounts::AllocateAccounts, AllocateArgs},
+    instruction::{accounts::ClearDataAccounts, ClearDataArgs},
     state::{InscriptionMetadata, ASSOCIATION, PREFIX},
 };
 
-pub(crate) fn process_allocate<'a>(
+pub(crate) fn process_clear_data<'a>(
     accounts: &'a [AccountInfo<'a>],
-    args: AllocateArgs,
+    args: ClearDataArgs,
 ) -> ProgramResult {
-    let ctx = &mut AllocateAccounts::context(accounts)?;
+    let ctx = &mut ClearDataAccounts::context(accounts)?;
 
     // Check that the inscription account is already initialized.
     if ctx.accounts.inscription_account.owner != &crate::ID {
         return Err(MplInscriptionError::NotInitialized.into());
+    }
+
+    // The account is already cleared.
+    if ctx.accounts.inscription_account.data_is_empty() {
+        return Ok(());
     }
 
     // Check that the metadata account is already initialized.
@@ -106,21 +107,12 @@ pub(crate) fn process_allocate<'a>(
         return Err(MplInscriptionError::InvalidSystemProgram.into());
     }
 
-    let max_realloc_size = ctx
-        .accounts
-        .inscription_account
-        .data_len()
-        .checked_add(MAX_PERMITTED_DATA_INCREASE)
-        .ok_or(MplInscriptionError::NumericalOverflow)?;
-
-    let new_size = std::cmp::min(args.target_size, max_realloc_size);
-
     // Resize the account to fit the new authority.
     resize_or_reallocate_account_raw(
         ctx.accounts.inscription_account,
         ctx.accounts.payer,
         ctx.accounts.system_program,
-        new_size,
+        0,
     )?;
 
     Ok(())

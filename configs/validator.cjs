@@ -11,9 +11,9 @@ module.exports = {
     commitment: "processed",
     programs: [
       {
-        label: "Mpl Json",
-        programId: "1NSCRfGeyo7wPUazGbaPBUsTM49e1k2aXewHGARfzSo",
-        deployPath: getProgram("mpl_inscription.so"),
+        label: "Mpl Inscription",
+        programId: "1NSA9E2dwbXfhmvP3VnnjpT8G5R89qnyw7AkXCjhzoB",
+        deployPath: getProgram("mpl_inscription_program.so"),
       },
       // Below are external programs that should be included in the local validator.
       // You may configure which ones to fetch from the cluster when building
@@ -21,7 +21,7 @@ module.exports = {
       {
         label: "Token Metadata",
         programId: "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s",
-        deployPath: getProgram("mpl_token_metadata.so"),
+        deployPath: getProgram("token_metadata.so"),
       },
       {
         label: "SPL Noop",

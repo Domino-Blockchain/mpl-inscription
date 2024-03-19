@@ -37,7 +37,7 @@ export type AllocateInstructionAccounts = {
   inscriptionAccount: PublicKey | Pda;
   /** The account to store the inscription account's metadata in. */
   inscriptionMetadataAccount: PublicKey | Pda;
-  /** The account that will pay for the transaction and rent. */
+  /** The account that will pay for the rent. */
   payer?: Signer;
   /** The authority of the inscription account. */
   authority?: Signer;
@@ -89,7 +89,7 @@ export function allocate(
   // Program ID.
   const programId = context.programs.getPublicKey(
     'mplInscription',
-    '1NSCRfGeyo7wPUazGbaPBUsTM49e1k2aXewHGARfzSo'
+    '1NSA9E2dwbXfhmvP3VnnjpT8G5R89qnyw7AkXCjhzoB'
   );
 
   // Accounts.

@@ -119,7 +119,7 @@ export function getAssociatedInscriptionAccountGpaBuilder(
 ) {
   const programId = context.programs.getPublicKey(
     'mplInscription',
-    '1NSCRfGeyo7wPUazGbaPBUsTM49e1k2aXewHGARfzSo'
+    '1NSA9E2dwbXfhmvP3VnnjpT8G5R89qnyw7AkXCjhzoB'
   );
   return gpaBuilder(context, programId)
     .registerFields<{ data: Uint8Array }>({ data: [0, bytes()] })
@@ -139,7 +139,7 @@ export function findAssociatedInscriptionAccountPda(
 ): Pda {
   const programId = context.programs.getPublicKey(
     'mplInscription',
-    '1NSCRfGeyo7wPUazGbaPBUsTM49e1k2aXewHGARfzSo'
+    '1NSA9E2dwbXfhmvP3VnnjpT8G5R89qnyw7AkXCjhzoB'
   );
   return context.eddsa.findPda(programId, [
     string({ size: 'variable' }).serialize('Inscription'),

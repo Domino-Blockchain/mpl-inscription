@@ -30,7 +30,7 @@ import {
 export type CreateShardInstructionAccounts = {
   /** The account to store the shard data in. */
   shardAccount: PublicKey | Pda;
-  /** The account that will pay for the transaction and rent. */
+  /** The account that will pay for the rent. */
   payer?: Signer;
   /** System program */
   systemProgram?: PublicKey | Pda;
@@ -75,7 +75,7 @@ export function createShard(
   // Program ID.
   const programId = context.programs.getPublicKey(
     'mplInscription',
-    '1NSCRfGeyo7wPUazGbaPBUsTM49e1k2aXewHGARfzSo'
+    '1NSA9E2dwbXfhmvP3VnnjpT8G5R89qnyw7AkXCjhzoB'
   );
 
   // Accounts.

@@ -40,7 +40,7 @@ export type InitializeFromMintInstructionAccounts = {
   tokenMetadataAccount?: PublicKey | Pda;
   /** The shard account for the inscription counter. */
   inscriptionShardAccount: PublicKey | Pda;
-  /** The account that will pay for the transaction and rent. */
+  /** The account that will pay for the rent. */
   payer?: Signer;
   /** The authority of the inscription account. */
   authority?: Signer;
@@ -80,7 +80,7 @@ export function initializeFromMint(
   // Program ID.
   const programId = context.programs.getPublicKey(
     'mplInscription',
-    '1NSCRfGeyo7wPUazGbaPBUsTM49e1k2aXewHGARfzSo'
+    '1NSA9E2dwbXfhmvP3VnnjpT8G5R89qnyw7AkXCjhzoB'
   );
 
   // Accounts.

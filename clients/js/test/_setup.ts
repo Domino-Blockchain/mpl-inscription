@@ -10,7 +10,9 @@ import {
 } from '../src';
 
 export const createUmi = async () => {
-  const umi = (await basecreateUmi()).use(mplInscription());
+  const umi = (await basecreateUmi('http://localhost:8899')).use(
+    mplInscription()
+  );
 
   // Use pMap to parallelize the creation of all 32 shards.
   await pMap(
