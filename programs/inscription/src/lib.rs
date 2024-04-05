@@ -1,6 +1,6 @@
 pub(crate) mod entrypoint;
 pub(crate) mod error;
-pub(crate) mod instruction;
+pub mod instruction;
 pub(crate) mod processor;
 pub(crate) mod state;
 
